@@ -1,2 +1,2 @@
 # eel-sample
-eel(python3) + vue + bootstrap4 sample
+eel(python3) + vuejs + bootstrap4 sample
