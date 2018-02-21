@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+         
+        <script type="text/javascript" src="/eel.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+        <title>toy image generator</title> 
+
+        <style type="text/css">
+            <!--
+                img{
+                    background-color: gray;
+                    width: 100%; height: 100%;
+                    object-fit: contain;
+                    }
+            -->
+        </style>
+
+    </head>
+    <body>
+            <nav class="navbar navbar-toggleable-sm navbar-inverse bg-inverse mb-4">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                    <a class="nav-link" href="#">TOP<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="http://www.inmyzakki.com/">HP</a>
+                    </li>
+                </ul>
+                </div>
+            </nav>
+        
+            <div class="container">
+                <div class="jumbotron">
+                    <h1>toy image generator</h1>
+                    <br />
+                
+                    <div id="img">
+                        <input type="file" v-on:change="onFileChange"><button :disabled="flg == 1" v-on:click="convert">convert</button>
+                        <hr />
+                        <img v-show="uploadedImage" :src="uploadedImage" />
+                        
+                    </div>
+
+                </div>
+            </div>
+    </body>
+    <script type="text/javascript">
+   
+        var img = new Vue({
+                            el: '#img',
+                            data() {
+                                return {
+                                uploadedImage: '',
+                                flg:1
+                                };
+                            },
+                            methods: {
+                                onFileChange(e) {
+                                    let files = e.target.files || e.dataTransfer.files;
+                                    console.log(e);
+                                    this.createImage(files[0]);
+                                },
+                                createImage(file) {
+                                    let reader = new FileReader();
+                                    reader.onload = (e) => {
+                                        this.uploadedImage = e.target.result;
+                                    };
+                                    this.flg = 0
+                                    reader.readAsDataURL(file);
+                                },
+                                convert: function (event) {
+                                    console.log(this.uploadedImage);
+                                    function show_image(data64) {
+                                        img.uploadedImage = data64;
+                                    };
+                                    eel.convert_img(this.uploadedImage)(show_image);
+                                }
+                            },  
+                            })
+    </script>
+</html>
